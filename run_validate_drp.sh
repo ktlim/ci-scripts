@@ -123,6 +123,9 @@ esac
 # need to set NUMPROC to the number of cores to utilize + 1
 MEM_PER_CORE=2.0
 export NUMPROC=$(($(target_cores $MEM_PER_CORE) + 1))
+# Jenkins sees all the hardware cores rather than the number configured
+# for a worker, so limit to a max of 8
+[[ $NUMPROC > 8 ]] && NUMPROC=8
 
 set +e
 "$RUN" -- --noplot
